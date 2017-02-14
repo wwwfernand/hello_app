@@ -32,8 +32,11 @@ gem 'bcrypt', '~> 3.1.11'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
-gem 'bootstrap-sass', '3.3.6'
-gem 'faker',          '1.6.6'
+gem 'bootstrap-sass',          '3.3.6'
+gem 'faker',                   '1.6.6'
+gem 'carrierwave',             '0.11.2'
+gem 'mini_magick',             '4.5.1'
+gem 'fog',                     '1.38.0'
 gem 'will_paginate',           '3.1.0'
 gem 'bootstrap-will_paginate', '0.0.10'
 group :development, :test do
