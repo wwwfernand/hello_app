@@ -17,7 +17,7 @@ User.create!(name:  "Example User",
              email: "user@tickleup.com",
              password:              "foobar",
              password_confirmation: "foobar",
-             admin:     true,
+             admin:     false,
              activated: true,
              activated_at: Time.zone.now)
 
