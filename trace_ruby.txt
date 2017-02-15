@@ -1,0 +1,206 @@
+1. install railsintaller (without git)
+2. install git
+3. rails new app_name
+
+// new project
+git init
+git add .
+git commit -m "First commit"
+git remote add myBitBucket ...git
+git remote add myGitLab ...git
+git remote add myGitHub ...git
+git push -u mybitbucket --all
+git push gitlab master
+git remote set-url gitlab new-url-to-gitlab-repo
+git push myGitHub master
+
+// existing project
+(add public key to github first)
+$ git clone ...git
+$ cd liggghts/
+$ git status
+
+//create eclipse project files
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+  <name>$APP</name>
+  <buildSpec>
+    <buildCommand>
+      <name>com.aptana.ide.core.unifiedBuilder</name>
+    </buildCommand>
+  </buildSpec>
+  <natures>
+    <nature>org.radrails.rails.core.railsnature</nature>
+    <nature>com.aptana.ruby.core.rubynature</nature>
+  </natures>
+</projectDescription>
+
+// add public ssh key 
+$ cd ~/.ssh
+$ ls
+(id_dsa id_rsa )
+$ ssh-keygen (if none)
+$ cat ~/.ssh/id_rsa.pub
+
+// Installing Gems
+$ gem install bcrypt --platform=ruby
+$ bundle install
+
+// Synching the development database
+$ sudo service postgresql start
+$ bin/rake db_name
+
+// Starting the development server
+$ sudo service redis-server start
+$ sudo service postgresql start
+
+// Then start the rails development server.
+$ bin/rails server
+run server: rails s -b $IP -p $PORT
+
+// Getting latest version
+$ git pull origin master
+
+// Make a new feature branch
+$ git checkout -b NAME-OF-BRANCH-HERE
+
+// After developing the feature, commit it to your branch.
+$ git add .
+$ git commit -m "..."
+
+// Push it to the Gitlab with the command below.
+$ git push origin  NAME-OF-BRANCH-HERE
+
+// If this is the first time to deploy from this virtual machine, login to heroku by using the command below and entering the heroku username and password.
+$ heroku login
+
+// Next push the master branch to heroku master.
+$ git push heroku master
+$ heroku run rails db:migrate
+
+// show diff
+git diff myfile.txt
+
+// revert
+git checkout .
+git reset
+git fetch origin
+git reset --hard origin/master
+git checkout master
+git pull origin master
+
+// debug database
+sudo service postgresql start
+psql 
+exit: \q
+
+// kill server
+lsof -wni tcp:8080
+kill -9 <Process ID>
+kill -9 830
+
+// database
+psql db_name
+mysql-ctl start
+mysql-ctl cli
+
+// create model
+bin/rails generate model ErrorMessages message:string type:string
+bin/rails generate model BatchJobs job_id:string job_status:string screen:string
+bin/rails generate model BatchInfos message:string screen:string data:string
+bin/rails generate job importcsv
+bin/rails generate worker importcsv
+bin/rails generate migration FixBatchInfos
+bin/rails generate job uploadvisitor
+
+// delete model
+rails destroy model BatchJobs
+
+// match branch with remote
+git fetch origin
+git reset --hard origin/master
+
+//add local git
+git init
+git add -A	// add new files
+
+//comands
+git server
+git status
+git commit -m "Initialize repository"
+cat ~/.ssh/id_rsa.pub	// get public ssh key
+
+git branch	// list of branches
+git checkout -b branch_name
+
+//merge with master
+$ git add -A
+$ git commit -m "Finish layout and routes"
+$ git checkout master
+$ git merge filling-in-layout
+$ rails test
+$ git push
+$ heroku maintenance:on
+$ git push heroku
+$ heroku pg:reset DATABASE
+$ heroku run rails db:migrate
+$ heroku run rails db:seed
+$ heroku restart
+$ heroku maintenance:off
+
+// test
+$ rails test:models
+$ rails test:integration
+
+bundle install --without production
+
+//create controller/views/models 
+rails generate scaffold User name:string email:string
+rails db:migrate
+rails db:rollback
+rails destroy model User
+
+// create controller with 2 views
+$ rails generate controller StaticPages home help
+rails destroy  controller StaticPages home help
+
+//create view
+touch app/views/static_pages/about.html.erb
+
+// create test
+rails generate integration_test site_layout
+
+Full command	Shortcut
+$ rails server	$ rails s
+$ rails console	$ rails c
+$ rails generate	$ rails g
+$ rails test	$ rails t
+$ bundle install	$ bundle
+
+psql
+select * from pg_trigger;
+SELECT tgname FROM   pg_trigger WHERE  tgrelid = 'myschema.mytbl'::regclass;
+
+rails console --sandbox
+user.save
+user.update_attribute(:name, "El Duderino")
+user.update_attributes(name: "The Dude", email: "dude@abides.org")
+user.errors.full_messages
+
+// migration
+rails generate migration add_index_to_users_email
+rails generate migration add_password_digest_to_users password_digest:string
+
+DATABASE \df
+rails db:migrate:reset
+
+// remove sensitive files
+https://help.github.com/articles/removing-sensitive-data-from-a-repository/
+$ git filter-branch --force --index-filter \
+'git rm --cached --ignore-unmatch PATH-TO-YOUR-FILE-WITH-SENSITIVE-DATA' \
+--prune-empty --tag-name-filter cat -- --all
+$ git push origin --force --all
+$ git push origin --force --tags
+$ git for-each-ref --format='delete %(refname)' refs/original | git update-ref --stdin
+$ git reflog expire --expire=now --all
+$ git gc --prune=now
