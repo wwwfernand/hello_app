@@ -7,16 +7,16 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 User.create!(name:  "Example User",
              email: "admin@tickleup.com",
-             password:              "foobar",
-             password_confirmation: "foobar",
+             password:              "tickleup.com",
+             password_confirmation: "tickleup.com",
              admin:     true,
              activated: true,
              activated_at: Time.zone.now)
              
 User.create!(name:  "Example User",
-             email: "user@tickleup.com",
-             password:              "foobar",
-             password_confirmation: "foobar",
+             email: "guest@tickleup.com",
+             password:              "tickleup.com",
+             password_confirmation: "tickleup.com",
              admin:     false,
              activated: true,
              activated_at: Time.zone.now)
