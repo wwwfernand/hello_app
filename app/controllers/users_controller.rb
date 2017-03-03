@@ -1,16 +1,30 @@
 class UsersController < ApplicationController
-  before_action :logged_in_user, only: [:index, :edit, :update, :destroy,
+  before_action :logged_in_user, only: [:index, :show, :edit, :update, :destroy,
                                         :following, :followers]
   before_action :correct_user,   only: [:edit, :update]
   before_action :admin_user,     only: :destroy    
 
   def index
-    @users = User.paginate(page: params[:page])
+    if current_user.admin?
+      @users = User.paginate(page: params[:page])
+    else
+      #@users = current_user.friends.paginate(page: params[:page])
+      @users = User.where(admin: false).paginate(page: params[:page])
+    end
   end
     
   def show
-    @user = User.find(params[:id])
-    @microposts = @user.microposts.paginate(page: params[:page])
+    if current_user.admin?
+      @user = User.find_by_id(params[:id])
+    else
+      @user = User.find_by(id: params[:id], admin: false)
+    end
+    if @user == nil
+      flash[:danger] = "User not found!"
+      redirect_to 'index'
+    else
+      @microposts = @user.microposts.paginate(page: params[:page])
+    end
   end
 
   def new
@@ -66,8 +80,6 @@ class UsersController < ApplicationController
       params.require(:user).permit(:name, :email, :password,
                                    :password_confirmation)
     end
-    
-    # Before filters
     
     # Confirms the correct user.
     def correct_user

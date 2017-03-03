@@ -20,6 +20,10 @@ $ git clone ...git
 $ cd liggghts/
 $ git status
 
+// copy project
+$ heroku plugins:install heroku-accounts
+$ heroku fork --from sourceapp --to targetapp
+
 //create eclipse project files
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
@@ -142,7 +146,7 @@ $ rails test
 $ git push
 $ heroku maintenance:on
 $ git push heroku
-$ heroku pg:reset DATABASE
+$ heroku pg:reset DATABASE --confirm db_name
 $ heroku run rails db:migrate
 $ heroku run rails db:seed
 $ heroku restart
@@ -163,6 +167,9 @@ rails destroy model User
 // create controller with 2 views
 $ rails generate controller StaticPages home help
 rails destroy  controller StaticPages home help
+
+// create controller with no view
+rails generate controller name --skip-template-engine
 
 //create view
 touch app/views/static_pages/about.html.erb
@@ -204,3 +211,20 @@ $ git push origin --force --tags
 $ git for-each-ref --format='delete %(refname)' refs/original | git update-ref --stdin
 $ git reflog expire --expire=now --all
 $ git gc --prune=now
+
+// pull db
+$ bin/rake pull_db_from_heroku_jma_demo
+$ sudo service redis-server start
+$ sudo service postgresql start
+
+#psql
+UPDATE visitors SET mainexhibitionid = 'a0Rp0000003rkS6EAI' WHERE userid = 'test1234';
+
+// pg_dump version mismatch
+Create the file /etc/apt/sources.list.d/pgdg.list
+Insert this line deb http://apt.postgresql.org/pub/repos/apt/ precise-pgdg main
+$ sudo apt-get install wget ca-certificates
+$ wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+$ sudo apt-get update
+$ sudo apt-get install postgresql-9.5
+$ sudo ln -s /usr/lib/postgresql/9.3/bin/pg_dump /usr/bin/pg_dump --force

@@ -1,5 +1,21 @@
 <% provide(:title, 'Contact') %>
 <h1>Contact</h1>
-<p>
-  You can contact me through email: wwwfernand@yahoo.com
-</p>
+<div>
+  <pre>You can send me a message below.</pre></br>
+  <%= form_tag(contactme_path) do -%>
+    Message: <%= text_area_tag "body", nil, :rows => 10 %>
+    <%= submit_tag "Send", :id => 'contactme', :class => "btn btn-primary", :style => "width:100px;" %>
+  <% end -%>
+</div>
+
+<script type="text/javascript">
+  if($('#body').val() ==  "") 
+   $('#contactme').attr('disabled', true);
+
+  $('#body').keyup(function(){
+    if($('#body').val() !=  "") 
+         $('#contactme').attr('disabled', false);    
+    else
+         $('#contactme').attr('disabled', true);   
+  });
+</script>

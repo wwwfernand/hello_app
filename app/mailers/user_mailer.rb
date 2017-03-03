@@ -19,4 +19,10 @@ class UserMailer < ApplicationMailer
     @user = user
     mail to: user.email, subject: "Password reset"
   end
+  
+  def sendme_mail(body, user)
+    @user = user
+    @body = body
+    mail to: Rails.application.config.myemail, subject: "[HEROKU][Hello_App]:contactme"
+  end
 end
