@@ -12,6 +12,8 @@ git remote add myGitHub ...git
 git push -u mybitbucket --all
 git push gitlab master
 git remote set-url gitlab new-url-to-gitlab-repo
+git remote set-url --push origin no_push
+git remote rm name
 git push myGitHub master
 
 // existing project
@@ -80,7 +82,7 @@ $ heroku login
 
 // Next push the master branch to heroku master.
 $ git push heroku master
-$ heroku run rails db:migrate
+$ heroku run rake db:migrate
 
 // show diff
 git diff myfile.txt
@@ -136,6 +138,10 @@ cat ~/.ssh/id_rsa.pub	// get public ssh key
 
 git branch	// list of branches
 git checkout -b branch_name
+git checkout revision_name
+
+//git branch delete
+$ git branch -d <branch_name>
 
 //merge with master
 $ git add -A
@@ -197,6 +203,7 @@ user.errors.full_messages
 // migration
 rails generate migration add_index_to_users_email
 rails generate migration add_password_digest_to_users password_digest:string
+rails generate migration add_exhibition_group_to_mainexhibition exhibition_group:string
 
 DATABASE \df
 rails db:migrate:reset
@@ -219,6 +226,7 @@ $ sudo service postgresql start
 
 #psql
 UPDATE visitors SET mainexhibitionid = 'a0Rp0000003rkS6EAI' WHERE userid = 'test1234';
+DELETE FROM batch_infos WHERE screen='uploadseminar'
 
 // pg_dump version mismatch
 Create the file /etc/apt/sources.list.d/pgdg.list
@@ -228,3 +236,15 @@ $ wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo ap
 $ sudo apt-get update
 $ sudo apt-get install postgresql-9.5
 $ sudo ln -s /usr/lib/postgresql/9.3/bin/pg_dump /usr/bin/pg_dump --force
+
+# update db local
+$ heroku pg:backups:capture --app appname
+$ heroku pg:backups:download  --app appname
+$ pg_restore --verbose --clean --no-acl --no-owner -h localhost -U u1jin6n0ngbve2 -d jma_development latest.dump
+
+//delete uncommit files
+$ git clean -n
+$ git clean -f
+
+// get all table count:
+select relname, n_live_tup from pg_stat_user_tables where schemaname not in ('pg_catalog', 'information_schema') ;
